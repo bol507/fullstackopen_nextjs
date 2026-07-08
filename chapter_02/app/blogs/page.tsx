@@ -11,7 +11,7 @@ export default function BlogsPage() {
           <li key={blog.id}>
             <h2>{blog.title}</h2>
             <p>By {blog.author}</p>
-            <p>URL: <a href={blog.url}>{blog.url}</a></p>
+            <p>URL: <a href={blog.url} target="_blank" rel="noopener noreferrer">{blog.url}</a></p>
             <p>Likes: {blog.likes}</p>
           </li>
         ))}

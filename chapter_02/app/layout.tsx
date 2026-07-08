@@ -35,7 +35,7 @@ export default function RootLayout({
             {" | "}
             <Link href="/blogs">blogs</Link>
             {" | "}
-            <Link href="/blogs/new">create new</Link>
+            <Link href="/blogs/new">create blog</Link>
           </nav>
 
         {children}

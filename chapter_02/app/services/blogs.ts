@@ -1,4 +1,4 @@
-const blogs = [
+let blogs = [
   {
     id: 1,
     title: "Understanding React Server Components",
@@ -50,13 +50,19 @@ const blogs = [
   }
 ];
 
-let nextId = 8
 
 export const getBlogs = () => {
-    return blogs
+    return [...blogs]
 }
-/*
-export const addBlogs = () => {
-    blogs.push()
-}
-    */
+
+export const addBlog = (title: string, author: string, url: string) => {
+  const newBlog = {
+    id: blogs.length + 1,
+    title,
+    author,
+    url,
+    likes: 0
+  };
+  blogs = [...blogs, newBlog];
+  return newBlog;
+};
