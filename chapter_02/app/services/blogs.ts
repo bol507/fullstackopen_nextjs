@@ -70,3 +70,11 @@ export const addBlog = (title: string, author: string, url: string) => {
   blogs = [...blogs, newBlog];
   return newBlog;
 };
+
+export const likeBlog = (id: number) => {
+  const blog = blogs.find( b => b.id === id);
+  if (blog){
+    blog.likes += 1;
+  }
+  return blog;
+}
