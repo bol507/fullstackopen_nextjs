@@ -52,7 +52,7 @@ let blogs = [
 
 
 export const getBlogs = () => {
-    return [...blogs]
+    return [...blogs].sort((a, b) => b.likes - a.likes);
 }
 
 export const getBlog = (id: number) => {
