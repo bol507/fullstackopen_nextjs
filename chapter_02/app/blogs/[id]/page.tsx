@@ -1,16 +1,17 @@
 import  { notFound } from "next/navigation";
 import { getBlog } from "../../services/blogs";
 import { likeBlogAction } from "../../actions/blogs";
+import { validatePositiveIntegerId } from "../../lib/validators";
 
 interface BlogPageProps {
-    params: {
+    params: Promise<{
         id: string;
-    }
+    }>
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
     const { id } = await params;
-    const blogId = parseInt(id as string);
+    const blogId = validatePositiveIntegerId(id);
     const blog = getBlog(blogId);
 
     if (!blog) {
