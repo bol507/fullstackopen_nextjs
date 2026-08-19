@@ -1,5 +1,5 @@
 import { db } from "../../db";
-import { blogs } from "../../db/schema";
+import { blogs, users } from "../../db/schema";
 import { eq, desc, ilike } from "drizzle-orm";
 
 
@@ -13,11 +13,16 @@ export const getBlog = async(id: number) => {
 };
 
 export const addBlog = async(title: string, author: string, url: string) => {
+
+  const randomUser = await db.select().from(users).limit(1);
+  const userId = randomUser[0]?.id || null;
+
   const result = await db.insert(blogs).values({
     title,
     author,
     url,  
     likes: 0,
+    userId
   }).returning();
   return result[0];
 };
