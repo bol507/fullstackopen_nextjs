@@ -27,15 +27,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full bg-zinc-50 antialiased dark:bg-zinc-950`}
     >
-      <body className="min-h-full flex flex-col">
-          <nav>
-            <Link href="/">home</Link>
-            {" | "}
-            <Link href="/blogs">blogs</Link>
-            {" | "}
-            <Link href="/blogs/new">create blog</Link>
+      <body className="min-h-full flex flex-col font-sans text-zinc-900 selection:bg-zinc-900 selection:text-white dark:text-zinc-100 dark:selection:bg-zinc-100 dark:selection:text-zinc-900">
+          <nav className="sticky top-0 z-50 flex w-full items-center justify-center gap-1 border-b border-zinc-200/60 bg-white/80 px-6 py-3.5 backdrop-blur-md dark:border-zinc-800/60 dark:bg-zinc-950/80">
+            <Link href="/" className="rounded-md px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+              home
+            </Link>
+            <span className="text-zinc-300 dark:text-zinc-600">{" | "}</span>
+            <Link href="/blogs" className="rounded-md px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+              blogs
+            </Link>
+            <span className="text-zinc-300 dark:text-zinc-600">{" | "}</span>
+            <Link href="/blogs/new" className="rounded-md px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100">
+              create blog
+            </Link>
           </nav>
 
         {children}
