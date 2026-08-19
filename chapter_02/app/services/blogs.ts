@@ -78,3 +78,13 @@ export const likeBlog = (id: number) => {
   }
   return blog;
 }
+
+export const searchBlogs = (query: string) => {
+  if (!query || query.trim() === "") {
+    return getBlogs();
+  }
+  const searchTerm = query.toLowerCase();
+  return blogs.filter((blog) => {
+    return blog.title.toLowerCase().includes(searchTerm) || blog.author.toLowerCase().includes(searchTerm);
+  });
+};
