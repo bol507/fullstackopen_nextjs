@@ -10,10 +10,9 @@ interface BlogPageProps {
 
 export default async function BlogPage({ params }: BlogPageProps) {
     const { id } = await params;
-    const blogId = parseInt(id, 10);
-    if (isNaN(blogId)) {
-        return notFound();
-    }
+    if (!/^[1-9]\d*$/.test(id)) return notFound();
+    
+    const blogId = Number(id);
     const blog = await getBlog(blogId);
 
     if (!blog) {
