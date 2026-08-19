@@ -11,7 +11,7 @@ export async function createBlog(formData: FormData) {
 
  
   if (!title || !author || !url) {
-    throw new Error("Todos los campos son obligatorios");
+    throw new Error("Missing required fields");
   }
 
   
@@ -27,7 +27,7 @@ export async function likeBlogAction(formData: FormData) {
     throw new Error("Invalid blog id");
   }
 
-  const blog = likeBlog(id);
+  const blog = await likeBlog(id);
 
   if (!blog) {
     throw new Error("Blog not found");
