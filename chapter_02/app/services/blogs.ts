@@ -1,90 +1,49 @@
-let blogs = [
-  {
-    id: 1,
-    title: "Understanding React Server Components",
-    author: "Matti Luukkainen",
-    url: "https://react.dev/blog/2023/03/22/react-server-components",
-    likes: 42
-  },
-  {
-    id: 2,
-    title: "Next.js App Router: A Complete Guide",
-    author: "Lee Robinson",
-    url: "https://nextjs.org/blog/app-router-guide",
-    likes: 38
-  },
-  {
-    id: 3,
-    title: "The Future of Full Stack Development",
-    author: "Dan Abramov",
-    url: "https://overreacted.io/future-of-fullstack",
-    likes: 27
-  },
-  {
-    id: 4,
-    title: "Mastering TypeScript in React Projects",
-    author: "Josh Goldberg",
-    url: "https://typescript-react.dev/mastering",
-    likes: 15
-  },
-  {
-    id: 5,
-    title: "From SPA to Next.js: Why and How",
-    author: "Katriina Haimi",
-    url: "https://fullstackopen.com/blog/spa-to-nextjs",
-    likes: 31
-  },
-  {
-    id: 6,
-    title: "Server Actions in Next.js: A Deep Dive",
-    author: "Delba de Oliveira",
-    url: "https://nextjs.org/blog/server-actions",
-    likes: 53
-  },
-  {
-    id: 7,
-    title: "Building Accessible Web Apps with React",
-    author: "Julia Undeutsch",
-    url: "https://accessibility-react.dev/guide",
-    likes: 19
-  }
-];
+import { db } from "../../db";
+import { blogs, users } from "../../db/schema";
+import { eq, desc, ilike } from "drizzle-orm";
 
 
-export const getBlogs = () => {
-    return [...blogs].sort((a, b) => b.likes - a.likes);
+export const getBlogs = async() => {
+    return await db.select().from(blogs).orderBy(desc(blogs.likes));
 }
 
-export const getBlog = (id: number) => {
-  return blogs.find((blog) => blog.id === id);
+export const getBlog = async(id: number) => {
+  const result = await db.select().from(blogs).where(eq(blogs.id, id));
+  return result[0];
 };
 
-export const addBlog = (title: string, author: string, url: string) => {
-  const newBlog = {
-    id: blogs.length + 1,
+export const addBlog = async(title: string, author: string, url: string, userId: number) => {
+
+  
+
+  const result = await db.insert(blogs).values({
     title,
     author,
-    url,
-    likes: 0
-  };
-  blogs = [...blogs, newBlog];
-  return newBlog;
+    url,  
+    likes: 0,
+    userId
+  }).returning();
+  return result[0];
 };
 
-export const likeBlog = (id: number) => {
-  const blog = blogs.find( b => b.id === id);
-  if (blog){
-    blog.likes += 1;
-  }
-  return blog;
+export const likeBlog = async (id: number) => {
+  const blog = await getBlog(id);
+  if (!blog) throw new Error("Blog not found");
+  const result = await db.update(blogs)
+    .set({ likes: blog.likes + 1 })
+    .where(eq(blogs.id, id))
+    .returning();
+  return result[0];
 }
 
 export const searchBlogs = (query: string) => {
   if (!query || query.trim() === "") {
     return getBlogs();
   }
-  const searchTerm = query.toLowerCase();
-  return blogs.filter((blog) => {
-    return blog.title.toLowerCase().includes(searchTerm) || blog.author.toLowerCase().includes(searchTerm);
-  });
+  const searchTerm = `%${query.trim()}%`;
+  return db
+    .select()
+    .from(blogs)
+    .where(ilike(blogs.title, searchTerm))
+    .orderBy(desc(blogs.likes));
 };

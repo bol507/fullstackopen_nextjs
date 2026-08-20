@@ -3,15 +3,17 @@ import { getBlog } from "../../services/blogs";
 import { likeBlogAction } from "../../actions/blogs";
 
 interface BlogPageProps {
-    params: {
+    params: Promise<{
         id: string;
-    }
+    }>;
 }
 
 export default async function BlogPage({ params }: BlogPageProps) {
     const { id } = await params;
-    const blogId = parseInt(id as string);
-    const blog = getBlog(blogId);
+    if (!/^[1-9]\d*$/.test(id)) return notFound();
+    
+    const blogId = Number(id);
+    const blog = await getBlog(blogId);
 
     if (!blog) {
         return notFound();
@@ -30,15 +32,19 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 </p>
                 
                 <p className="text-base text-zinc-600 dark:text-zinc-400 mb-2">
-                    <strong className="font-semibold text-zinc-900 dark:text-zinc-100">URL:</strong>{" "} 
-                    <a 
-                        href={blog.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="underline underline-offset-2 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
-                    >
-                        {blog.url}
-                    </a>
+                    <strong className="font-semibold text-zinc-900 dark:text-zinc-100">URL:</strong>{" "}
+                    {blog.url ? (
+                        <a 
+                            href={blog.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="underline underline-offset-2 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200"
+                        >
+                            {blog.url}
+                        </a>
+                    ) : (
+                        <span className="italic text-zinc-400 dark:text-zinc-500">No URL provided</span>
+                    )}
                 </p>
                 
                 <p className="text-base text-zinc-600 dark:text-zinc-400 mb-10">
