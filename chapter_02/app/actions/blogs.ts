@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { addBlog, likeBlog } from "../services/blogs";
+import { getCurrentUser } from "../services/session";
 
 export async function createBlog(formData: FormData) {
   const title = formData.get("title") as string;
@@ -14,8 +15,13 @@ export async function createBlog(formData: FormData) {
     throw new Error("Missing required fields");
   }
 
+  const user = await getCurrentUser();
+  if (!user) {
+    redirect("/login");
+  }
+
   
-  addBlog(title, author, url);
+  await addBlog(title, author, url, user.id);
   revalidatePath("/blogs");
   redirect("/blogs");
 }

@@ -12,10 +12,9 @@ export const getBlog = async(id: number) => {
   return result[0];
 };
 
-export const addBlog = async(title: string, author: string, url: string) => {
+export const addBlog = async(title: string, author: string, url: string, userId: number) => {
 
-  const randomUser = await db.select().from(users).limit(1);
-  const userId = randomUser[0]?.id || null;
+  
 
   const result = await db.insert(blogs).values({
     title,
