@@ -6,13 +6,18 @@ import { addBlog, likeBlog } from "../services/blogs";
 import { getCurrentUser } from "../services/session";
 
 type CreateBlogState = {
-  error?: string;
+  errors?: {
+    title?: string;
+    author?: string;
+    url?: string;
+    general?: string;
+  };
   fields?: {
     title: string;
     author: string;
     url: string;
   };
-} | null;
+} ;
 
 export async function createBlog(
   prevState: CreateBlogState,
@@ -22,24 +27,24 @@ export async function createBlog(
   const author = formData.get("author") as string;
   const url = formData.get("url") as string;
 
+  const errors: CreateBlogState["errors"] = {};
+
  
   if (!title || title.trim().length < 5) {
-    return {
-      error: "The title must be at least 5 characters long",
-      fields: { title, author, url },
-    };
+    errors.title = "The title must be at least 5 characters long";
   }
 
   if (!author || author.trim().length < 5) {
-    return {
-      error: "The author must be at least 5 characters long",
-      fields: { title, author, url },
-    };
+    errors.author = "The author must be at least 5 characters long";
   }
 
   if (!url || url.trim().length < 5) {
+    errors.url = "The URL must be at least 5 characters long";
+  }
+
+  if (Object.keys(errors).length > 0) {
     return {
-      error: "The URL must be at least 5 characters long",
+      errors,
       fields: { title, author, url },
     };
   }
@@ -47,13 +52,15 @@ export async function createBlog(
   const user = await getCurrentUser();
   if (!user) {
     return {
-      error: "You must be logged in to create a blog",
+      errors: {
+        general: "You must be logged in to create a blog",
+      },
       fields: { title, author, url },
     };
   }
 
   
-  await addBlog(title, author, url, user.id);
+ await addBlog(title.trim(), author.trim(), url.trim(), user.id);
   revalidatePath("/blogs");
   redirect("/blogs");
 }
