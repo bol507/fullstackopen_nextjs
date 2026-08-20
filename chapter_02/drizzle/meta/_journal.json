@@ -8,6 +8,13 @@
       "when": 1787175170908,
       "tag": "0000_mysterious_apocalypse",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787180912097,
+      "tag": "0001_panoramic_pretty_boy",
+      "breakpoints": true
     }
   ]
 }

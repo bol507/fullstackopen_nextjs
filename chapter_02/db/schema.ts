@@ -1,4 +1,10 @@
-import { pgTable, serial, text, integer } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, varchar } from "drizzle-orm/pg-core";
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 255 }).notNull().unique(),
+  name: text("name").notNull(),
+});
 
 export const blogs = pgTable("blogs", {
   id: serial("id").primaryKey(),
@@ -6,4 +12,5 @@ export const blogs = pgTable("blogs", {
   author: text("author").notNull(),
   url: text("url"),
   likes: integer("likes").notNull().default(0),
+  userId: integer("user_id").references(() => users.id),
 });
