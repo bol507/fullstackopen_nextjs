@@ -7,8 +7,20 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 type RegisterState = {
-  error?: string;
-} | null;
+  errors?: {
+    username?: string;
+    name?: string;
+    password?: string;
+    passwordConfirm?: string;
+    general?: string;
+  };
+  fields?: {
+    username: string;
+    name: string;
+    password: string;
+    passwordConfirm: string;
+  };
+};
 
 export async function registerUser(
      prevState: RegisterState, 
@@ -17,18 +29,38 @@ export async function registerUser(
   const username = formData.get("username") as string;
   const name = formData.get("name") as string;
   const password = formData.get("password") as string;
+  const passwordConfirm = formData.get("passwordConfirm") as string || "";
+
+  const errors: RegisterState["errors"] = {};
 
 
-  if (!username || !name || !password) {
-    return { error: "All fields are required" };
+  if (!username || username.trim().length < 4) {
+    errors.username ="The username must be at least 4 characters long";
   }
 
-  if (username.length < 3) {
-    return { error: "The username must be at least 3 characters long" };
+  if (username && !/^[a-zA-Z0-9_]+$/.test(username)) {
+    errors.username = "The username can only contain letters, numbers and underscores";
   }
 
-  if (password.length < 6) {
-    return { error: "The password must be at least 6 characters long" };
+  if (!name || name.trim().length < 1) {
+    errors.name = "The name must be at least 1 character long";
+  }
+
+   if (!password || password.length < 4) {
+    errors.password ="The password must be at least 4 characters long" ;
+  }
+
+  if (!passwordConfirm || passwordConfirm.length < 4) {
+    errors.passwordConfirm = "The password confirmation must be at least 4 characters long";
+  } else if (password !== passwordConfirm) {
+    errors.passwordConfirm = "The passwords don't match";
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      errors,
+      fields: { username, name, password, passwordConfirm },
+    };
   }
 
  
@@ -37,7 +69,12 @@ export async function registerUser(
   });
 
   if (existingUser) {
-    return { error: "Username already exists. Please choose another one." };
+    return {
+      errors: {
+        general: "something went wrong",
+      },
+      fields: { username, name, password, passwordConfirm },
+    };
   }
 
   
@@ -45,11 +82,20 @@ export async function registerUser(
   const passwordHash = await bcrypt.hash(password, saltRounds);
 
  
-  await db.insert(users).values({
-    username,
-    name,
-    passwordHash,
-  });
+  try {
+    await db.insert(users).values({
+      username: username.trim(),
+      name: name.trim(),
+      passwordHash,
+    });
+  } catch (error) {
+    return {
+      errors: {
+        general: "something went wrong, please try again",
+      },
+      fields: { username, name, password, passwordConfirm },
+    };
+  }
 
   
   redirect("/login?registered=true");

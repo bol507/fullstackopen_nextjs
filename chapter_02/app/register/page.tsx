@@ -20,8 +20,19 @@ function SubmitButton() {
   );
 }
 
+const initialState = {
+  errors: undefined,
+  fields: {
+    username: "",
+    name: "",
+    password: "",
+    passwordConfirm: "",
+  },
+};
+
+
 export default function RegisterPage() {
-  const [state, action] = useActionState(registerUser, null);
+  const [state, action] = useActionState(registerUser, initialState);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 dark:bg-zinc-950">
@@ -41,11 +52,20 @@ export default function RegisterPage() {
               id="username"
               name="username"
               type="text"
+              defaultValue={state?.fields?.username || ""}
               required
-              minLength={3}
+              minLength={4}
               className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
-              placeholder="johndoe"
+              placeholder="Choose a username"
             />
+            {state?.errors?.username && (
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {state.errors.username}
+              </p>
+            )}
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Minimum 4 characters
+            </p>
           </div>
 
           {/* Name */}
@@ -57,10 +77,19 @@ export default function RegisterPage() {
               id="name"
               name="name"
               type="text"
+              defaultValue={state?.fields?.name || ""}
               required
               className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
               placeholder="John Doe"
             />
+            {state?.errors?.name && (
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {state.errors.name}
+              </p>
+            )}
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Your public display name
+            </p>
           </div>
 
           {/* Password */}
@@ -72,19 +101,53 @@ export default function RegisterPage() {
               id="password"
               name="password"
               type="password"
+              defaultValue={state?.fields?.password || ""}
               required
-              minLength={6}
+              minLength={4}
               className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
               placeholder="••••••••"
             />
+            {state?.errors?.password && (
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {state.errors.password}
+              </p>
+            )}
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Minimum 4 characters
+            </p>
+          </div>
+
+          {/* Password Confirm */}
+          <div>
+            <label htmlFor="passwordConfirm" className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Confirm Password
+            </label>
+            <input
+              id="passwordConfirm"
+              name="passwordConfirm"
+              type="password"
+              defaultValue={state?.fields?.passwordConfirm || ""}
+              required
+              minLength={4}
+              className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
+              placeholder="••••••••"
+            />
+            {state?.errors?.passwordConfirm && (
+              <p className="text-sm text-red-600 dark:text-red-400">
+                {state.errors.passwordConfirm}
+              </p>
+            )}
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Minimum 4 characters
+            </p>
           </div>
 
           {/* Error Message */}
-          {state?.error && (
+          {state?.errors?.general && (
             <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
-              {state.error}
+              {state.errors.general}
             </div>
-          )}
+          )}bol
 
           {/* Submit Button */}
           <SubmitButton />
