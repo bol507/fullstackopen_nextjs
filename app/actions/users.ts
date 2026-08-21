@@ -5,6 +5,9 @@ import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
+import { getCurrentUser } from "../services/session";
+import { updateUserToken } from "../services/users";
+import { revalidatePath } from "next/cache";
 
 type RegisterState = {
   errors?: {
@@ -99,4 +102,31 @@ export async function registerUser(
 
   
   redirect("/login?registered=true");
+}
+
+export async function generateToken() {
+  const user = await getCurrentUser();
+  
+  if (!user) {
+    throw new Error("No estás autenticado");
+  }
+
+  const newToken = crypto.randomUUID();
+  
+  await updateUserToken(user.id, newToken);
+  
+  revalidatePath("/me");
+  return { token: newToken };
+}
+
+
+export async function revokeToken() {
+  const user = await getCurrentUser();
+  
+  if (!user) {
+    throw new Error("No estás autenticado");
+  }
+  await updateUserToken(user.id, null);
+  
+  revalidatePath("/me");
 }

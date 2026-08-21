@@ -12,8 +12,8 @@ export default function NavBar() {
     <nav className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-4">
         <div className="flex items-center gap-4 sm:gap-6">
-          <NavLink 
-            href="/" 
+          <NavLink
+            href="/"
             disableActive
             className="text-lg font-bold tracking-tight"
           >
@@ -34,9 +34,11 @@ export default function NavBar() {
                 + New Blog
               </Link>
 
-              <span className="hidden text-sm text-zinc-600 dark:text-zinc-400 sm:inline">
-                Hello, <span className="font-semibold text-zinc-900 dark:text-zinc-100">{session.user?.name}</span>
-              </span>
+              <NavLink href="/me" className="text-sm">
+                <span className="hidden text-sm text-zinc-600 dark:text-zinc-400 sm:inline">
+                  Hello, <span className="font-semibold text-zinc-900 dark:text-zinc-100">{session.user?.name}</span>
+                </span>
+              </NavLink>
 
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}

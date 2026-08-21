@@ -6,6 +6,7 @@ export const users = pgTable("users", {
   username: varchar("username", { length: 255 }).notNull().unique(),
   name: text("name").notNull(),
   passwordHash: text("password_hash").notNull().default(""),
+  token: text("token"),
 });
 
 export const blogs = pgTable("blogs", {
