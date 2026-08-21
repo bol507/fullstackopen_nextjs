@@ -20,13 +20,15 @@ export default function NavBar() {
             Blog App
           </NavLink>
           <NavLink href="/blogs">Blogs</NavLink>
+          <NavLink href="/me/reading-list" className="text-sm"> Reading List</NavLink>
           <NavLink href="/users">Users</NavLink>
         </div>
 
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
             <>
-              {/* new blog button */}
+              
+
               <Link
                 href="/blogs/new"
                 className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
