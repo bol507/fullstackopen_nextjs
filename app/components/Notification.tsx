@@ -22,7 +22,7 @@ export default function Notification() {
   const icon = isSuccess ? "✅" : "❌";
 
   return (
-    <div
+    <div data-testid="notification"
       className={`${bgClass} ${textClass} ${borderClass} border-l-4 p-4 rounded-r-md shadow-lg flex items-center justify-between animate-in fade-in slide-in-from-top-2 duration-300`}
       role="alert"
     >
