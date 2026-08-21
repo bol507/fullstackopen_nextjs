@@ -34,7 +34,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
           {showImportant ? "Show all" : "Show important only"}
         </Link>
 
-        <ul className="flex flex-col gap-6">
+        <ul data-testid="blogs-list" className="flex flex-col gap-6" >
           {blogs.map(blog => (
             <li
               key={blog.id}

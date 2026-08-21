@@ -91,6 +91,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         <input type="hidden" name="id" value={blog.id} />
                         <button 
                             type="submit"
+                            data-testid="like-button"
                             className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 active:scale-[0.98] dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200 dark:focus:ring-zinc-400 dark:focus:ring-offset-zinc-900"
                         >
                             ❤️ Like ({blog.likes})

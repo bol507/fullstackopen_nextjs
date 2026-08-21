@@ -13,6 +13,7 @@ function SubmitButton() {
   return (
     <button
       type="submit"
+      data-testid="create-blog-button"
       disabled={pending}
       className="flex-1 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
     >
