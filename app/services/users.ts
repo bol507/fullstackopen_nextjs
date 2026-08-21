@@ -15,3 +15,17 @@ export const getUserWithBlogs = async (username: string) => {
   });
   return result;
 }
+
+export const getUserById = async (id: number) => {
+  const result = await db.select().from(users).where(eq(users.id, id));
+  return result[0];
+};
+
+export const updateUserToken = async (userId: number, token: string | null) => {
+  const result = await db
+    .update(users)
+    .set({ token })
+    .where(eq(users.id, userId))
+    .returning();
+  return result[0];
+};
