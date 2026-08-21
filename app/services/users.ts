@@ -1,6 +1,7 @@
 import { db } from "../../db";
 import { users } from "../../db/schema";
-import { eq } from "drizzle-orm";
+import { eq, count, sql } from "drizzle-orm";
+import { readingLists } from "@/db/schema";
 
 export const getUsers = async () => {
   return await db.select().from(users);
@@ -28,4 +29,23 @@ export const updateUserToken = async (userId: number, token: string | null) => {
     .where(eq(users.id, userId))
     .returning();
   return result[0];
+};
+
+export const getUserStats = async (userId: number) => {
+  const result = await db
+    .select({
+      total: count(readingLists.id),
+      read: sql<number>`COUNT(CASE WHEN ${readingLists.read} = true THEN 1 END)`.mapWith(Number),
+    })
+    .from(readingLists)
+    .where(eq(readingLists.userId, userId));
+
+  const total = result[0]?.total ?? 0;
+  const read = result[0]?.read ?? 0;
+
+  return {
+    readingListTotal: total,
+    readingListRead: read,
+    readingListUnread: total - read,
+  };
 };
