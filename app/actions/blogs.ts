@@ -12,6 +12,7 @@ type CreateBlogState = {
     url?: string;
     general?: string;
   };
+  success?:boolean;
   fields?: {
     title: string;
     author: string;
@@ -30,21 +31,19 @@ export async function createBlog(
   const errors: CreateBlogState["errors"] = {};
 
  
-  if (!title || title.trim().length < 5) {
-    errors.title = "The title must be at least 5 characters long";
-  }
+  if (!title || title.trim().length < 5) errors.title = "The title must be at least 5 characters long";
+  
 
-  if (!author || author.trim().length < 5) {
-    errors.author = "The author must be at least 5 characters long";
-  }
+  if (!author || author.trim().length < 5) errors.author = "The author must be at least 5 characters long";
+  
 
-  if (!url || url.trim().length < 5) {
-    errors.url = "The URL must be at least 5 characters long";
-  }
+  if (!url || url.trim().length < 5) errors.url = "The URL must be at least 5 characters long";
+  
 
   if (Object.keys(errors).length > 0) {
     return {
       errors,
+      success: false,
       fields: { title, author, url },
     };
   }
@@ -55,6 +54,7 @@ export async function createBlog(
       errors: {
         general: "You must be logged in to create a blog",
       },
+      success:false,
       fields: { title, author, url },
     };
   }
@@ -62,7 +62,7 @@ export async function createBlog(
   
  await addBlog(title.trim(), author.trim(), url.trim(), user.id);
   revalidatePath("/blogs");
-  redirect("/blogs");
+  return { success: true };
 }
 
 export async function likeBlogAction(formData: FormData) {

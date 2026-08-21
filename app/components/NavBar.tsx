@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import NavLink from "./NavLink";
 
 export default function NavBar() {
   const { data: session, status } = useSession();
@@ -10,16 +11,16 @@ export default function NavBar() {
   return (
     <nav className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-4">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="text-lg font-bold tracking-tight text-zinc-900 hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-400">
+        <div className="flex items-center gap-4 sm:gap-6">
+          <NavLink 
+            href="/" 
+            disableActive
+            className="text-lg font-bold tracking-tight"
+          >
             Blog App
-          </Link>
-          <Link href="/blogs" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
-            Blogs
-          </Link>
-          <Link href="/users" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
-            Users
-          </Link>
+          </NavLink>
+          <NavLink href="/blogs">Blogs</NavLink>
+          <NavLink href="/users">Users</NavLink>
         </div>
 
         <div className="flex items-center gap-4">
@@ -34,7 +35,7 @@ export default function NavBar() {
               </Link>
 
               <span className="hidden text-sm text-zinc-600 dark:text-zinc-400 sm:inline">
-                Hola, <span className="font-semibold text-zinc-900 dark:text-zinc-100">{session.user?.name}</span>
+                Hello, <span className="font-semibold text-zinc-900 dark:text-zinc-100">{session.user?.name}</span>
               </span>
 
               <button
