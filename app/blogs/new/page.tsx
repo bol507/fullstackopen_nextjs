@@ -1,9 +1,11 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { createBlog } from "@/app/actions/blogs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useNotification } from "@/app/components/NotificationContext";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -22,6 +24,7 @@ function SubmitButton() {
 
 const initialState = {
   error: undefined,
+  success: false,
   fields: {
     title: "",
     author: "",
@@ -30,7 +33,16 @@ const initialState = {
 };
 
 export default function NewBlogPage() {
+  const router = useRouter();
   const [state, action] = useActionState(createBlog, initialState);
+  const { showNotification } = useNotification();
+
+  useEffect(() => {
+    if (state?.success) {
+      showNotification("Blog created successfully!", "success");
+      router.push("/blogs");
+    }
+  }, [state?.success, showNotification, router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4 font-sans text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white dark:bg-zinc-950 dark:text-zinc-100 dark:selection:bg-zinc-100 dark:selection:text-zinc-900">
