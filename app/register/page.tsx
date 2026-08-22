@@ -11,6 +11,7 @@ function SubmitButton() {
 
   return (
     <button
+      data-testid="register-button"
       type="submit"
       disabled={pending}
       className="w-full rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
@@ -54,12 +55,11 @@ export default function RegisterPage() {
               type="text"
               defaultValue={state?.fields?.username || ""}
               required
-              minLength={4}
               className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
               placeholder="Choose a username"
             />
             {state?.errors?.username && (
-              <p className="text-sm text-red-600 dark:text-red-400">
+              <p data-testid="username-error" className="text-sm text-red-600 dark:text-red-400">
                 {state.errors.username}
               </p>
             )}
@@ -71,7 +71,7 @@ export default function RegisterPage() {
           {/* Name */}
           <div>
             <label htmlFor="name" className="mb-2 block text-sm font-medium text-zinc-700 dark:text-zinc-300">
-              Full Name
+              Name
             </label>
             <input
               id="name"
@@ -83,7 +83,7 @@ export default function RegisterPage() {
               placeholder="John Doe"
             />
             {state?.errors?.name && (
-              <p className="text-sm text-red-600 dark:text-red-400">
+              <p data-testid="name-error" className="text-sm text-red-600 dark:text-red-400">
                 {state.errors.name}
               </p>
             )}
@@ -108,7 +108,7 @@ export default function RegisterPage() {
               placeholder="••••••••"
             />
             {state?.errors?.password && (
-              <p className="text-sm text-red-600 dark:text-red-400">
+              <p data-testid="password-error" className="text-sm text-red-600 dark:text-red-400">
                 {state.errors.password}
               </p>
             )}
@@ -133,7 +133,7 @@ export default function RegisterPage() {
               placeholder="••••••••"
             />
             {state?.errors?.passwordConfirm && (
-              <p className="text-sm text-red-600 dark:text-red-400">
+              <p data-testid="passwordConfirm-error" className="text-sm text-red-600 dark:text-red-400">
                 {state.errors.passwordConfirm}
               </p>
             )}

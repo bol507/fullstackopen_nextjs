@@ -29,32 +29,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const existingUser = await db.query.users.findFirst({
-      where: eq(users.username, username),
-    });
-
-    if (existingUser) {
-      return NextResponse.json(
-        { error: `The username '${username}' is already taken` },
-        { status: 409 }
-      );
-    }
-
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const result = await db.insert(users).values({
-      username,
-      name,
-      passwordHash,
-    }).returning();
+    const result = await db
+      .insert(users)
+      .values({
+        username: username.trim(),
+        name: name.trim(),
+        passwordHash,
+      })
+      .onConflictDoUpdate({
+        target: users.username,
+        set: { 
+          name: name.trim(), 
+          passwordHash 
+        },
+      })
+      .returning();
 
-    const newUser = result[0];
+    const user = result[0];
 
     return NextResponse.json({
-      id: newUser.id,
-      username: newUser.username,
-      name: newUser.name,
-      message: "Test user created successfully",
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      message: "Test user created/updated successfully",
     }, { status: 201 });
     
   } catch (error) {

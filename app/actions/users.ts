@@ -101,7 +101,7 @@ export async function registerUser(
   }
 
   
-  redirect("/login?registered=true");
+  redirect("/login");
 }
 
 export async function generateToken() {

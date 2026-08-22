@@ -27,7 +27,7 @@ export default async function MePage() {
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
               {user.name}
             </h1>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p data-testid="user-username" className="text-sm text-zinc-500 dark:text-zinc-400">
               @{user.username}
             </p>
           </div>

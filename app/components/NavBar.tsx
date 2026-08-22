@@ -1,6 +1,6 @@
-"use client";
+"use client"; 
 
-import Link from "next/link";
+import Link from "next/link"; // Asegúrate de que Link esté importado
 import { useSession, signOut } from "next-auth/react";
 import NavLink from "./NavLink";
 
@@ -27,8 +27,6 @@ export default function NavBar() {
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
             <>
-              
-
               <Link
                 href="/blogs/new"
                 className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
@@ -36,11 +34,17 @@ export default function NavBar() {
                 + New Blog
               </Link>
 
-              <NavLink href="/me" className="text-sm">
-                <span className="hidden text-sm text-zinc-600 dark:text-zinc-400 sm:inline">
+              
+              <Link 
+                href="/me" 
+                aria-label="me"
+                className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+              >
+                <span className="hidden sm:inline">
                   Hello, <span className="font-semibold text-zinc-900 dark:text-zinc-100">{session.user?.name}</span>
                 </span>
-              </NavLink>
+               
+              </Link>
 
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
@@ -50,12 +54,21 @@ export default function NavBar() {
               </button>
             </>
           ) : (
-            <Link
-              href="/login"
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
-            >
-              Login
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/register"
+                className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              >
+                register
+              </Link>
+              
+              <Link
+                href="/login"
+                className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+              >
+                login
+              </Link>
+            </div>
           )}
         </div>
       </div>

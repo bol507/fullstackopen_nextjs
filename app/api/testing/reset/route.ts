@@ -13,10 +13,9 @@ export async function DELETE() {
 
   try {
     
-    await db.execute(sql`
-      TRUNCATE TABLE reading_lists, blogs, users 
-      RESTART IDENTITY CASCADE
-    `);
+    await db.execute(sql`TRUNCATE TABLE reading_lists RESTART IDENTITY CASCADE`);
+    await db.execute(sql`TRUNCATE TABLE blogs RESTART IDENTITY CASCADE`);
+    await db.execute(sql`TRUNCATE TABLE users RESTART IDENTITY CASCADE`);
 
     return NextResponse.json({
       message: "All data has been reset and sequences restarted",

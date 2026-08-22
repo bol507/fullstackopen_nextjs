@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Credentials from "next-auth/providers/credentials"
 import { db } from "@/db";
 import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -34,34 +34,42 @@ declare module "next-auth/jwt" {
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: "Credentials",
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("🔑 [AUTH] Credenciales recibidas:", { 
+          username: credentials?.username, 
+          hasPassword: !!credentials?.password 
+        });
         if (!credentials?.username || !credentials?.password) {
+           console.log("❌ [AUTH] Faltan credenciales");
           return null;
         }
 
         const user = await db.query.users.findFirst({
           where: eq(users.username, credentials.username as string),
         });
-
+        
+        console.log("👤 [AUTH] Usuario encontrado en BD:", user ? "SÍ" : "NO");
         if (!user) {
+          console.log("❌ [AUTH] Usuario no existe");
           return null;
         }
-
+        
         const passwordMatch = await bcrypt.compare(
           credentials.password as string,
           user.passwordHash
         );
-
+         console.log("🔐 [AUTH] ¿La contraseña coincide?:", passwordMatch);
         if (!passwordMatch) {
+           console.log("❌ [AUTH] Contraseña incorrecta");
           return null;
         }
-
+        console.log("✅ [AUTH] Login exitoso, devolviendo usuario");
         return {
           id: user.id.toString(),
           name: user.name,
