@@ -13,6 +13,7 @@ declare module "next-auth" {
     id: string;
     name: string;
     username: string; 
+    token?: string;
   }
 
   interface Session {
@@ -20,6 +21,7 @@ declare module "next-auth" {
       id: string;
       name: string;
       username: string;
+      token?: string;
     };
   }
 }
@@ -29,6 +31,7 @@ declare module "next-auth/jwt" {
     id: string;
     name: string;
     username: string; 
+    token?: string;
   }
 }
 
@@ -41,12 +44,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        console.log("🔑 [AUTH] Credenciales recibidas:", { 
-          username: credentials?.username, 
-          hasPassword: !!credentials?.password 
-        });
+       
         if (!credentials?.username || !credentials?.password) {
-           console.log("❌ [AUTH] Faltan credenciales");
           return null;
         }
 
@@ -54,9 +53,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: eq(users.username, credentials.username as string),
         });
         
-        console.log("👤 [AUTH] Usuario encontrado en BD:", user ? "SÍ" : "NO");
+        
         if (!user) {
-          console.log("❌ [AUTH] Usuario no existe");
           return null;
         }
         
@@ -64,16 +62,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           credentials.password as string,
           user.passwordHash
         );
-         console.log("🔐 [AUTH] ¿La contraseña coincide?:", passwordMatch);
+      
         if (!passwordMatch) {
-           console.log("❌ [AUTH] Contraseña incorrecta");
           return null;
         }
-        console.log("✅ [AUTH] Login exitoso, devolviendo usuario");
+        
         return {
           id: user.id.toString(),
           name: user.name,
           username: user.username,
+          token: user.token ?? undefined,
         };
       },
     }),
@@ -90,6 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
         token.name = user.name;
         token.username = user.username;
+        token.token = user.token ?? undefined;
       }
       return token;
     },
@@ -98,6 +97,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.username = token.username as string;
+        session.user.token = token.token as string | undefined;
       }
       return session;
     },

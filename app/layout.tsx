@@ -38,7 +38,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <NotificationProvider>
             <NavBar />
-            <div className="fixed top-4 right-4 z-50 w-full max-w-sm">
+            <div className="fixed top-1 right-4 z-50 w-full max-w-sm">
               <Notification />
             </div>
             <main className="flex-1 overflow-y-auto ">{children}</main>

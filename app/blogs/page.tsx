@@ -66,7 +66,7 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
                 )}
               </p>
               <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                Likes: {blog.likes}
+                 {blog.likes} likes
               </p>
             </li>
           ))}

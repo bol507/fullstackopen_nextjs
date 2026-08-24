@@ -29,16 +29,20 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
     return (
         <div className="flex min-h-screen flex-col items-center bg-zinc-50 px-4 py-12 font-sans text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white dark:bg-zinc-950 dark:text-zinc-100 dark:selection:bg-zinc-100 dark:selection:text-zinc-900 sm:px-8">
-            <div className="w-full max-w-3xl rounded-2xl border border-zinc-200/60 bg-white px-8 py-12 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 sm:px-12 sm:py-16">
+            
+            {/* ✅ 1. Agregamos data-testid="blog-detail" al contenedor principal de la tarjeta */}
+            <div data-testid="blog-detail" className="w-full max-w-3xl rounded-2xl border border-zinc-200/60 bg-white px-8 py-12 shadow-sm dark:border-zinc-800/60 dark:bg-zinc-900 sm:px-12 sm:py-16">
                 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">
+                    {/* ✅ 2. Agregamos data-testid="blog-title" al elemento h1 */}
+                    <h1 data-testid="blog-title" className="mb-4 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-4xl">
                         {blog.title}
                     </h1>
                     
                     <div className="flex flex-wrap items-center gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                        <span className="inline-flex items-center gap-1.5">
+                        {/* ✅ 3. Agregamos data-testid="blog-author" al span que contiene el autor */}
+                        <span data-testid="blog-author" className="inline-flex items-center gap-1.5">
                             <span className="font-semibold text-zinc-900 dark:text-zinc-100">✍️ {blog.author}</span>
                         </span>
                         {isOwner && (
@@ -86,7 +90,6 @@ export default async function BlogPage({ params }: BlogPageProps) {
                 {/* Actions */}
                 <div className="flex flex-col gap-3 sm:flex-row">
                     
-                   
                     <form action={likeBlogAction} className="flex-1">
                         <input type="hidden" name="id" value={blog.id} />
                         <button 
@@ -98,12 +101,12 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         </button>
                     </form>
 
-                    
-                    {user && !isOwner && (
+                     {user && !isOwner && (
                         <form action={inReadingList ? removeFromReadingListAction : addToReadingListAction} className="flex-1">
                             <input type="hidden" name="blogId" value={blog.id} />
                             <button 
                                 type="submit"
+                                data-testid="add-to-reading-list-button" 
                                 className={`inline-flex w-full items-center justify-center gap-2 rounded-lg border px-6 py-3 text-sm font-medium transition-colors active:scale-[0.98] ${
                                     inReadingList
                                         ? "border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-300 dark:hover:bg-emerald-900/30"
@@ -116,7 +119,6 @@ export default async function BlogPage({ params }: BlogPageProps) {
                     )}
                 </div>
 
-                
                 {!user && (
                     <div className="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-center dark:border-zinc-800 dark:bg-zinc-800/50">
                         <p className="text-sm text-zinc-600 dark:text-zinc-400">

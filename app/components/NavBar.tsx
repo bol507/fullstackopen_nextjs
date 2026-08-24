@@ -19,9 +19,9 @@ export default function NavBar() {
           >
             Blog App
           </NavLink>
-          <NavLink href="/blogs">Blogs</NavLink>
-          <NavLink href="/me/reading-list" className="text-sm"> Reading List</NavLink>
-          <NavLink href="/users">Users</NavLink>
+          <NavLink href="/blogs">blogs</NavLink>
+          <NavLink href="/me/reading-list" className="text-sm">reading list</NavLink>
+          <NavLink href="/users">users</NavLink>
         </div>
 
         <div className="flex items-center gap-4">
@@ -43,7 +43,7 @@ export default function NavBar() {
                 <span className="hidden sm:inline">
                   Hello, <span className="font-semibold text-zinc-900 dark:text-zinc-100">{session.user?.name}</span>
                 </span>
-               
+                <span className="sm:hidden">Hello, {session.user?.name}</span>
               </Link>
 
               <button

@@ -14,30 +14,26 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const { showNotification } = useNotification();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
+    setError("");
     setLoading(true);
 
-    try {
-      const result = await signIn("credentials", {
-        username,
-        password,
-        redirect: false,
-      });
 
-      if (result?.error) {
-        setError("Invalid username or password");
-        setLoading(false);
-        return;
-      }
+    const result = await signIn("credentials", {
+      username,
+      password,
+      redirect: false,
+    });
 
+    if (result?.error === "CredentialsSignin") {
+      setError("Invalid username or password");
+      setLoading(false);
+    } else {
       showNotification("Logged in successfully!", "success");
       router.push("/");
-    } catch {
-      setError("Something went wrong. Please try again.");
-      setLoading(false);
     }
+
   };
 
   return (

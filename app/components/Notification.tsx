@@ -21,8 +21,11 @@ export default function Notification() {
     : "border-red-400 dark:border-red-800";
   const icon = isSuccess ? "✅" : "❌";
 
-  return (
-    <div data-testid="notification"
+  const testId = type === "error" ? "error-message" : "notification";
+
+   return (
+    <div 
+      data-testid={testId} 
       className={`${bgClass} ${textClass} ${borderClass} border-l-4 p-4 rounded-r-md shadow-lg flex items-center justify-between animate-in fade-in slide-in-from-top-2 duration-300`}
       role="alert"
     >

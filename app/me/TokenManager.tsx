@@ -61,8 +61,8 @@ export default function TokenManager({
           Token Status:
         </p>
         {token ? (
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <code className="flex-1 break-all rounded-lg border border-zinc-200 bg-white px-3 py-2.5 font-mono text-xs text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200">
+          <div data-testid="token-display" className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <code data-testid="api-token" className="flex-1 break-all rounded-lg border border-zinc-200 bg-white px-3 py-2.5 font-mono text-xs text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200">
               {token}
             </code>
             <div className="flex gap-2">
@@ -82,30 +82,32 @@ export default function TokenManager({
             </div>
           </div>
         ) : (
-          <p className="text-sm italic text-zinc-500 dark:text-zinc-400">
+          <p data-testid="no-token-message" className="text-sm italic text-zinc-500 dark:text-zinc-400">
             No token has been generated yet.
           </p>
         )}
       </div>
 
-      
-      {!token && (
-        <button
-          onClick={handleGenerateToken}
-          disabled={isPending}
-          className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
-        >
-          {isPending ? "Generating..." : "🔑 Generate Token"}
-        </button>
-      )}
 
-      {/* Información de uso */}
+
+      <button
+        onClick={handleGenerateToken}
+        data-testid="generate-token-button"
+        disabled={isPending}
+        className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200"
+      >
+       
+        {isPending ? "Generating..." : token ? "🔄 Regenerate Token" : "🔑 Generate Token"}
+      </button>
+
+
+
       <div className="rounded-lg border border-zinc-200/60 bg-zinc-50/30 p-4 dark:border-zinc-800/60 dark:bg-zinc-800/20">
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
           💡 Use this token to authenticate yourself in API requests.
         </p>
         <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-500">
-          Ejemplo:{" "}
+          example:{" "}
           <code className="rounded border border-zinc-200 bg-white px-2 py-0.5 font-mono text-[11px] text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
             Authorization: Bearer &lt;token&gt;
           </code>

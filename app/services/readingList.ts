@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { readingLists } from "@/db/schema";
+import { readingLists, blogs } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export const addToReadingList = async (userId: number, blogId: number) => {
@@ -80,3 +80,25 @@ export const toggleReadStatus = async (userId: number, blogId: number) => {
   
   return result[0];
 };
+
+
+export async function getUnreadReadingList(userId: number | string) {
+  const numericUserId = Number(userId);
+
+  const items = await db
+    .select({
+      id: blogs.id,
+      title: blogs.title,
+      author: blogs.author,
+    })
+    .from(readingLists)
+    .innerJoin(blogs, eq(readingLists.blogId, blogs.id))
+    .where(
+      and(
+        eq(readingLists.userId, numericUserId),
+        eq(readingLists.read, false) 
+      )
+    );
+
+  return items;
+}

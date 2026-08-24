@@ -1,9 +1,9 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { addBlog, likeBlog } from "../services/blogs";
 import { getCurrentUser } from "../services/session";
+import { redirect } from "next/navigation";
 
 type CreateBlogState = {
   errors?: {
@@ -30,15 +30,9 @@ export async function createBlog(
 
   const errors: CreateBlogState["errors"] = {};
 
- 
   if (!title || title.trim().length < 5) errors.title = "The title must be at least 5 characters long";
-  
-
   if (!author || author.trim().length < 5) errors.author = "The author must be at least 5 characters long";
-  
-
   if (!url || url.trim().length < 5) errors.url = "The URL must be at least 5 characters long";
-  
 
   if (Object.keys(errors).length > 0) {
     return {
@@ -54,15 +48,16 @@ export async function createBlog(
       errors: {
         general: "You must be logged in to create a blog",
       },
-      success:false,
+      success: false,
       fields: { title, author, url },
     };
   }
 
+
+  await addBlog(title.trim(), author.trim(), url.trim(), user.id);
   
- await addBlog(title.trim(), author.trim(), url.trim(), user.id);
-  revalidatePath("/blogs");
   return { success: true };
+
 }
 
 export async function likeBlogAction(formData: FormData) {

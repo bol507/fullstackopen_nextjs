@@ -6,13 +6,14 @@ import { eq } from "drizzle-orm";
 export const getCurrentUser = async () => {
   const session = await auth();
   
-  if (!session?.user?.id) {
+  if (!session?.user) {
     return null;
   }
 
-  const user = await db.query.users.findFirst({
-    where: eq(users.id, parseInt(session.user.id, 10)),
-  });
-
-  return user || null;
+   return {
+    id: Number(session.user.id), 
+    name: session.user.name,
+    username: session.user.username,
+    token: session.user.token ?? null,
+  };
 };

@@ -144,7 +144,7 @@ export default function RegisterPage() {
 
           {/* Error Message */}
           {state?.errors?.general && (
-            <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
+            <div data-testid="error-message" className="rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
               {state.errors.general}
             </div>
           )}bol
