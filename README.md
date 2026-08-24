@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Full Stack Open: Next.js Blog Application
 
-## Getting Started
+A modern, full-stack blog application built with **Next.js 16**, **TypeScript**, and **Drizzle ORM**. Developed as part of the [Full Stack Open](https://courses.mooc.fi/org/uh-cs/courses/full-stack-open-nextjs) course by the University of Helsinki.
 
-First, run the development server:
+This project emphasizes clean architecture, type safety, separation of concerns, and robust end-to-end (E2E) testing.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Live Demo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **[Live Application](https://fullstackopennextjsbol507-c6ais68of-bol507s-projects.vercel.app/login)** ([Source Code](https://github.com/bol507/fullstackopen_nextjs))
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Secure Authentication**: User registration, login, and logout powered by NextAuth.js v5 with secure password hashing (bcrypt).
+- **Blog Management**: Create, view, and like blog posts with server-side rendering (SSR) and seamless client-side interactions.
+- **Personalized Reading List**: Users can save blogs to their reading list and toggle their "read/unread" status, with real-time UI updates via Server Actions.
+- **API Token Management**: Secure generation and revocation of personal API tokens for authenticated users.
+- **Comprehensive E2E Testing**: A robust test suite built with **Playwright**, ensuring reliable user flows (authentication, navigation, and data manipulation).
+- **Modern UI/UX**: Fully responsive design with dark mode support, built using **Tailwind CSS** and accessible components.
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Server Components, Server Actions)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database**: PostgreSQL (hosted on [Neon](https://neon.tech/))
+- **ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+- **Authentication**: [NextAuth.js v5](https://authjs.dev/)
+- **Testing**: [Playwright](https://playwright.dev/)
+- **Package Manager**: `pnpm`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Follow these instructions to get a local copy up and running.
 
-## Deploy on Vercel
+### Prerequisites
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Node.js (v24 or higher)
+- `pnpm` package manager
+- A PostgreSQL database (e.g., via Neon)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/bol507/fullstackopen_nextjs.git
+   cd fullstackopen_nextjs
