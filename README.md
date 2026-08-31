@@ -6,7 +6,7 @@ This project emphasizes clean architecture, type safety, separation of concerns,
 
 ## 🚀 Live Demo
 
-> **[Live Application](https://fullstackopennextjsbol507-c6ais68of-bol507s-projects.vercel.app/login)** ([Source Code](https://github.com/bol507/fullstackopen_nextjs))
+> **[Live Application](https://fullstackopennextjsbol507.vercel.app/)** ([Source Code](https://github.com/bol507/fullstackopen_nextjs))
 
 ## ✨ Features
 
