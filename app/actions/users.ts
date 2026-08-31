@@ -36,7 +36,7 @@ export async function registerUser(
 
   const errors: RegisterState["errors"] = {};
 
-  // Validaciones
+
   if (!username || username.trim().length < 4) {
     errors.username = "The username must be at least 4 characters long";
   }
@@ -88,7 +88,7 @@ export async function registerUser(
     });
   } catch (error) {
     
-    console.error("❌ [REGISTER] Error al insertar en la base de datos:", error);
+   
     
     return {
       errors: {
